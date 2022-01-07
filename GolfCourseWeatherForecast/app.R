@@ -2,34 +2,38 @@
 library(shiny)
 library(leaflet)
 library(bs4Dash)
+library(shinyWidgets)
+library(tidyverse)
+library(jsonlite)
+library(httr)
+
+source("mod-map.R")
+source("mod-weather.R")
+courses <- readRDS("course_df")
+
 ui <- dashboardPage(
   dashboardHeader(title = "Basic dashboard"),
   dashboardSidebar(),
   dashboardBody(
-    # Boxes need to be put in a row (or column)
+
     fluidRow(
       box(
-        title = "Controls",
-        sliderInput("slider", "Number of observations:", 1, 100, 50)
-      )
-    ),
-    fluidRow(
-      box(
-        leafletOutput("my_club")
+        pickerInput("course", label = NULL, choices = courses$course_name, 
+                    options = list(title = "Select a course", `live-search`=TRUE)),
+        map_ui("my_course")
       )
     )
   )
 )
 
 server <- function(input, output) {
-  output$my_club <- renderLeaflet({
-    leaflet() %>% 
-      addTiles() %>% 
-      setView(lng = -122.145550,
-              lat = 47.539950,
-              zoom = 14)
+  
+  selected_course <- eventReactive(input$course, {
+    courses %>% filter(course_name == input$course)
   })
   
+  map_server("my_course", reactive({selected_course()}))
+
 }
 
 shinyApp(ui, server)

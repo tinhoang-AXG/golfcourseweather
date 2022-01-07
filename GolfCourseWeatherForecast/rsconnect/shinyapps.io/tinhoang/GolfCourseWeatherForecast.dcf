@@ -1,0 +1,14 @@
+name: GolfCourseWeatherForecast
+title: GolfCourseWeatherForecast
+username:
+account: tinhoang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5404216
+bundleId: 5442553
+url: https://tinhoang.shinyapps.io/GolfCourseWeatherForecast/
+when: 1641527657.18022
+lastSyncTime: 1641527657.18023
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: web_scraping.R
